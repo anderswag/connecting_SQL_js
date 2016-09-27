@@ -12,10 +12,8 @@ const client = new pg.Client({
 
 var person = process.argv[2];
 
-client.connect((err) => {
-  if (err) {
-    return console.error("Connection Error", err);
-  }
+
+function getFamousPerson(){
   client.query("SELECT * FROM famous_people WHERE last_name = $1", [person], (err, result) => {
     if (err) {
       return console.error("error running query", err);
@@ -25,5 +23,12 @@ client.connect((err) => {
     })
     client.end();
   });
+}
+
+client.connect((err) => {
+  if (err) {
+    return console.error("Connection Error", err);
+  }
+  getFamousPerson();
 });
 
